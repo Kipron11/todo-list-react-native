@@ -1,23 +1,33 @@
 import React, {useState} from 'react';
-import {KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import {Provider, useDispatch, useSelector} from "react-redux";
-import store, {AppDispatch, RootState} from "../../redux/store";
-import {addTodo} from "../../redux/reducers/toDoReducer";
+import {Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../../redux/store";
+import {addTodo, toDoReducer} from "../../redux/reducers/toDoReducer";
+import {Todo} from "../../models/TodoModel";
 
 const Controls = () => {
     const [inputValue, setInputValue] = useState('');
-    const dispatch = useDispatch<AppDispatch>()
+    const dispatch = useDispatch<AppDispatch>();
+    const handleAddTodo = () => {
+        // @ts-ignore
+        dispatch(addTodo({name:inputValue}));
+        setInputValue('');
 
+    };
+    const handleOnChange = (text:string) =>{
+        setInputValue(text)
+    }
     return (
-<Provider store={store}>
+        <View style={styles.controlsWrapper} >
         <View style={styles.controls}>
             {/*<KeyboardAvoidingView/>*/}
-            <TextInput style={styles.input} placeholder={"Write a Task"} value={inputValue} onChangeText={(text)=> setInputValue(text) } ></TextInput>
-            <TouchableOpacity style={styles.button}  onPress={()=>{dispatch(addTodo({name:inputValue}))}} >
+            <TextInput style={styles.input}  value={inputValue} placeholder={"Write a Task"} onChangeText={handleOnChange} ></TextInput>
+            <TouchableOpacity style={styles.button}  onPress={()=> handleAddTodo()}  >
                 <Text style={styles.buttonText}>+</Text>
             </TouchableOpacity>
         </View>
-</Provider>
+
+        </View>
     );
 };
 const styles = StyleSheet.create({
@@ -25,6 +35,7 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         justifyContent:"space-between",
         alignItems:"center",
+        marginVertical:10,
     },
     input:{
         width:250,
@@ -41,6 +52,7 @@ const styles = StyleSheet.create({
         shadowRadius: 5,
     },
     button:{
+
         color:"#C0C0C0",
         justifyContent:"center",
         alignItems:"center",
@@ -61,5 +73,6 @@ const styles = StyleSheet.create({
         fontSize:32,
         top:5,
     },
+    controlsWrapper:{},
 })
 export default Controls;

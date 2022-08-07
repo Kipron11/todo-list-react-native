@@ -1,14 +1,74 @@
-import React from 'react';
-import {Text, TouchableOpacity, View, StyleSheet} from "react-native";
+import React, {useState} from 'react';
+import {Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../../redux/store";
+import {addTodo, completeTodo, editTodo, removeTodo} from "../../redux/reducers/toDoReducer";
 
-const Task = (prop: any) => {
+const Task = ({title}:any) => {
+    const toDos = useSelector((state:RootState) => state.toDo.value);
+    const dispatch = useDispatch<AppDispatch>()
+    const Count = useSelector((state:RootState) => state.toDo.count);
+
+    const [edit, setEdit] = useState(false)
+    const [complete, setComplete] = useState('')
+
+    const handleRemoveTodo = ({id}) => {
+        dispatch(removeTodo({id}));
+    };
+    const handleEditTodo = ({id}) => {
+       // setEdit(true)
+
+
+
+    };
+
+    const handleSaveTodo = ({id}) => {
+        // setEdit(false)
+    };
+
+    const handleCompleteTodo = ( {id}) => {
+    // setComplete(name);
+        console.log(complete)
+        dispatch(completeTodo({id:setComplete}));
+        console.log(complete)
+        // setComplete('')
+        // console.log(complete)
+        // console.log(completed)
+    };
+
     return (
-        <View style={styles.Item}>
-            <View style={styles.itemContent}>
-                <TouchableOpacity style={styles.itemSquare}></TouchableOpacity>
-                <Text style={styles.itemText}>{prop.text}</Text>
-            </View>
-    <View style={styles.circle}></View>
+
+        <View style={styles.tasksWrapper}>
+            { Count > 0 && (
+                <View>
+            <Text style={styles.title}>{title} : {Count}</Text>
+        <View style={styles.items}>
+            {toDos.map(( {name, id ,completed, editing} ) => (
+                <View>
+                <View style={styles.Item}>
+                <View style={styles.itemContent}>
+                    <TouchableOpacity style={styles.itemSquare} ></TouchableOpacity>
+                    <Text style={styles.itemText}>{name}</Text>
+                </View>
+                <View style={styles.circle}></View>
+                    </View>
+                    <View style={styles.buttonWrapper}>
+                        <Button color={"#FD0000B3"} onPress={()=> handleRemoveTodo({id})} title="Remove"></Button>
+                        { (!edit ) &&
+                        <Button color={"#b9e0f7"} onPress={()=> handleEditTodo({id})} title="Edit"></Button>
+                        }
+                        {edit &&
+                            <Button color={'green'} onPress={()=> handleSaveTodo({id})} title="Save"></Button>
+                        }
+                        <Button color={'#007F009E'} onPress={()=> handleCompleteTodo({ id})} title="Complete"></Button>
+                    </View>
+                </View>
+
+            ))}
+        </View>
+                </View>
+                )}
+            {Count=== 0 && <Text style={styles.title}>No Todos</Text>}
         </View>
     );
 };
@@ -20,7 +80,7 @@ const styles = StyleSheet.create({
         alignItems:"center",
         backgroundColor: "#FFFFFF",
         borderWidth: 1,
-        borderColor:"#F7F7F7",
+        borderColor:"#f7f7f7",
          borderRadius: 10,
         shadowColor:'#161d28',
         shadowOffset: {width: 0, height: 5},
@@ -51,6 +111,30 @@ const styles = StyleSheet.create({
         borderRadius: 5,
 
     },
+    items:{
+        flexDirection:"column",
+        gap:20,
+
+    },
+    title:{
+        color:"#1A1A1A",
+        fontStyle:"normal",
+        fontWeight:"700",
+        fontSize:24,
+        lineHeight:28,
+        marginBottom:30,
+    },
+
+    tasksWrapper :{
+
+    },
+
+    buttonWrapper:{
+        flexDirection:'row',
+        borderRadius:10,
+        gap:1,
+        marginLeft:5
+    }
 })
 
 export default Task;
