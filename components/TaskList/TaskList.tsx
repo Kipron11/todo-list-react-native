@@ -2,33 +2,52 @@ import React, {useState} from 'react';
 import {Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../redux/store";
-import {addTodo, completeTodo, editTodo, removeTodo} from "../../redux/reducers/toDoReducer";
+import {addTodo, completeTodo, removeTodo, saveTodo} from "../../redux/reducers/toDoReducer";
 import {Todo} from "../../models/TodoModel";
 
-const Task = ({title}:any) => {
+const TaskList = ({title}:any) => {
     const toDos = useSelector((state:RootState) => state.toDo.value);
     const dispatch = useDispatch<AppDispatch>()
     const Count = useSelector((state:RootState) => state.toDo.count);
 
-    const [edit, setEdit] = useState(false)
+
+    const [newName, setNewName] = useState('')
+
+    type editType = {
+        id: number,
+        edit: boolean,
+    }
+
+    const [edit, setEdit] = useState<editType>({
+        id:0,
+        edit:false
+    })
 
     const handleRemoveTodo = ({id}) => {
         dispatch(removeTodo({id}));
     };
 
     const handleEditTodo = ({id}) => {
-       // setEdit(true)
+       setEdit({id:id, edit:true})
 
 
     };
 
-    const handleSaveTodo = ({id}) => {
-        // setEdit(false)
+    const handleSaveTodo = ({id, name}) => {
+        setEdit({id:0, edit:false})
+        dispatch(saveTodo({id, name}));
+        setNewName('');
+
     };
 
     const handleCompleteTodo = ({id}) => {
         dispatch(completeTodo({id}));
     };
+
+    const handleOnChange = (text:string) =>{
+        setNewName(text);
+    }
+
 
     return (
 
@@ -39,22 +58,26 @@ const Task = ({title}:any) => {
         <View style={styles.items}>
             {toDos.filter((item)=> {
            return item.completed == 'inProgress'}
-            ).map(( {name, id, editing} ) => (
+            ).map(( {name, id} ) => (
                 <View>
                 <View style={styles.Item}>
                 <View style={styles.itemContent}>
                     <TouchableOpacity style={styles.itemSquare} ></TouchableOpacity>
-                    <Text style={styles.itemText}>{name}</Text>
-                </View>
+                    {
+                        (edit.id !== id) ? <Text style={styles.itemText}>{name}</Text> :
+                            <TextInput value={newName} onChangeText={handleOnChange}></TextInput>
+                    }</View>
                 <View style={styles.circle}></View>
                     </View>
                     <View style={styles.buttonWrapper}>
                         <Button color={"#FD0000B3"} onPress={()=> handleRemoveTodo({id})} title="Remove"></Button>
-                        { (!edit ) &&
+                        { (!edit.edit ) &&
                         <Button color={"#b9e0f7"} onPress={()=> handleEditTodo({id})} title="Edit"></Button>
                         }
-                        {edit &&
-                            <Button color={'green'} onPress={()=> handleSaveTodo({id})} title="Save"></Button>
+                        {(edit.edit && edit.id==id)  &&
+                            <Button color={'green'} onPress={()=> handleSaveTodo({
+                                id:id, name:newName
+                            })} title="Save"></Button>
                         }
                         <Button color={'#007F009E'} onPress={()=> handleCompleteTodo({id})} title="Complete"></Button>
                     </View>
@@ -133,4 +156,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Task;
+export default TaskList;

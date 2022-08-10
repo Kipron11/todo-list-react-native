@@ -18,7 +18,6 @@ export const toDoReducer = createSlice({
                 id:Math.random()*100,
                 name: action.payload.name,
                 completed:'inProgress',
-                editing:'none',
             };
             state.value.push(todo);
             state.count +=1;
@@ -30,13 +29,10 @@ export const toDoReducer = createSlice({
             state.value = state.value.filter((todo) => todo.id !== action.payload.id);
             state.count -=1;
         },
-        editTodo:(state:{ value:Todo[]}, action:{payload:Todo}) =>
-        {
-
-        },
        saveTodo:(state:{ value:Todo[]}, action:{payload:Todo}) =>
         {
-
+            let savedTodo = state.value.filter((todo) => todo.id == action.payload.id)[0];
+            savedTodo.name = action.payload.name
         },
         completeTodo:(state:{value:Todo[], count:number}, action:{payload:Todo}) =>
         {
@@ -49,5 +45,5 @@ export const toDoReducer = createSlice({
     },
 })
 
-export const { addTodo, removeTodo, editTodo,completeTodo } = toDoReducer.actions;
+export const { addTodo, removeTodo,completeTodo,saveTodo } = toDoReducer.actions;
 export default toDoReducer.reducer;

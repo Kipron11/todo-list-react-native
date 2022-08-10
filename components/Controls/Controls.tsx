@@ -21,7 +21,7 @@ const Controls = () => {
         <View style={styles.controlsWrapper} >
         <View style={styles.controls}>
             {/*<KeyboardAvoidingView/>*/}
-            <TextInput style={styles.input}  value={inputValue} placeholder={"Write a Task"} onChangeText={handleOnChange} ></TextInput>
+            <TextInput style={styles.input}  value={inputValue} placeholder={"Write a TaskList"} onChangeText={handleOnChange} ></TextInput>
             <TouchableOpacity style={styles.button}  onPress={()=> handleAddTodo()}  >
                 <Text style={styles.buttonText}>+</Text>
             </TouchableOpacity>

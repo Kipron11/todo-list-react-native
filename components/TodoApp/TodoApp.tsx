@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, StyleSheet, View} from 'react-native';
-import Task from "../Task/Task";
 import Controls from "../Controls/Controls";
+import TaskList from "../TaskList/TaskList";
 
 
 // @ts-ignore
@@ -13,7 +13,7 @@ export default function TodoApp({navigation}) {
 
     return (
         <View style={styles.container}>
-                    <Task title="Today's Tasks"/>
+                    <TaskList title="Today's Tasks"/>
                 <Controls />
             <View>
                 <Button title="Check Completed Tasks" onPress={loadCompletedTasks}></Button>
