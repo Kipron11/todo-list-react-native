@@ -4,11 +4,15 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 
 const CompletedToDos = () => {
-    const toDos = useSelector((state:RootState) => state.toDo.valueCompleted);
+    const toDos = useSelector((state:RootState) => state.toDo.value);
 
     return (
 <View>
-    {toDos.map(({name})=>(
+    {toDos.filter((item)=> {
+       return item.completed == 'complete'
+
+
+    }).map(({name})=>(
         <View>
             <Text>{name}</Text>
         </View>

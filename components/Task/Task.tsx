@@ -3,6 +3,7 @@ import {Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../redux/store";
 import {addTodo, completeTodo, editTodo, removeTodo} from "../../redux/reducers/toDoReducer";
+import {Todo} from "../../models/TodoModel";
 
 const Task = ({title}:any) => {
     const toDos = useSelector((state:RootState) => state.toDo.value);
@@ -10,14 +11,13 @@ const Task = ({title}:any) => {
     const Count = useSelector((state:RootState) => state.toDo.count);
 
     const [edit, setEdit] = useState(false)
-    const [complete, setComplete] = useState('')
 
     const handleRemoveTodo = ({id}) => {
         dispatch(removeTodo({id}));
     };
+
     const handleEditTodo = ({id}) => {
        // setEdit(true)
-
 
 
     };
@@ -26,14 +26,8 @@ const Task = ({title}:any) => {
         // setEdit(false)
     };
 
-    const handleCompleteTodo = ( {id}) => {
-    // setComplete(name);
-        console.log(complete)
-        dispatch(completeTodo({id:setComplete}));
-        console.log(complete)
-        // setComplete('')
-        // console.log(complete)
-        // console.log(completed)
+    const handleCompleteTodo = ({id}) => {
+        dispatch(completeTodo({id}));
     };
 
     return (
@@ -43,7 +37,9 @@ const Task = ({title}:any) => {
                 <View>
             <Text style={styles.title}>{title} : {Count}</Text>
         <View style={styles.items}>
-            {toDos.map(( {name, id ,completed, editing} ) => (
+            {toDos.filter((item)=> {
+           return item.completed == 'inProgress'}
+            ).map(( {name, id, editing} ) => (
                 <View>
                 <View style={styles.Item}>
                 <View style={styles.itemContent}>
@@ -60,7 +56,7 @@ const Task = ({title}:any) => {
                         {edit &&
                             <Button color={'green'} onPress={()=> handleSaveTodo({id})} title="Save"></Button>
                         }
-                        <Button color={'#007F009E'} onPress={()=> handleCompleteTodo({ id})} title="Complete"></Button>
+                        <Button color={'#007F009E'} onPress={()=> handleCompleteTodo({id})} title="Complete"></Button>
                     </View>
                 </View>
 
