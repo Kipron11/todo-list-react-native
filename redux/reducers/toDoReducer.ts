@@ -20,14 +20,13 @@ export const toDoReducer = createSlice({
                 completed:'inProgress',
             };
             state.value.push(todo);
-            state.count +=1;
 
             // state.value.push(action.payload)
         },
         removeTodo:(state:{ value:Todo[], count:number}, action:{payload:Todo}) =>
         {
             state.value = state.value.filter((todo) => todo.id !== action.payload.id);
-            state.count -=1;
+
         },
        saveTodo:(state:{ value:Todo[]}, action:{payload:Todo}) =>
         {
@@ -38,12 +37,20 @@ export const toDoReducer = createSlice({
         {
             let completedTodo = state.value.filter((todo) => todo.id == action.payload.id)[0];
             completedTodo.completed = 'complete';
+            },
+        unCompleteTodo:(state:{value:Todo[], count:number}, action:{payload:Todo}) =>
+        {
+            let completedTodo = state.value.filter((todo) => todo.id == action.payload.id)[0];
+            completedTodo.completed = 'inProgress';
+        },
+        increaseCounter:(state:{value:Todo[], count:number})=>{
+            state.count +=1;
+        },
+        decreaseCounter:(state:{value:Todo[], count:number})=>{
             state.count -=1;
-            //Todo : In future need to fix state count usage in functions
         }
-
     },
 })
 
-export const { addTodo, removeTodo,completeTodo,saveTodo } = toDoReducer.actions;
+export const { addTodo, removeTodo,completeTodo,saveTodo,unCompleteTodo,increaseCounter,decreaseCounter } = toDoReducer.actions;
 export default toDoReducer.reducer;

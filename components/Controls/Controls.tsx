@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../redux/store";
-import {addTodo, toDoReducer} from "../../redux/reducers/toDoReducer";
+import {addTodo, increaseCounter, toDoReducer} from "../../redux/reducers/toDoReducer";
 import {Todo} from "../../models/TodoModel";
 
 const Controls = () => {
@@ -12,6 +12,7 @@ const Controls = () => {
         // @ts-ignore
         dispatch(addTodo({name:inputValue}));
         setInputValue('');
+        dispatch(increaseCounter())
 
     };
     const handleOnChange = (text:string) =>{

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../redux/store";
-import {addTodo, completeTodo, removeTodo, saveTodo} from "../../redux/reducers/toDoReducer";
+import {addTodo, completeTodo, decreaseCounter, removeTodo, saveTodo} from "../../redux/reducers/toDoReducer";
 import {Todo} from "../../models/TodoModel";
 
 const TaskList = ({title}:any) => {
@@ -25,6 +25,7 @@ const TaskList = ({title}:any) => {
 
     const handleRemoveTodo = ({id}) => {
         dispatch(removeTodo({id}));
+        dispatch(decreaseCounter())
     };
 
     const handleEditTodo = ({id}) => {
@@ -42,6 +43,7 @@ const TaskList = ({title}:any) => {
 
     const handleCompleteTodo = ({id}) => {
         dispatch(completeTodo({id}));
+        dispatch(decreaseCounter())
     };
 
     const handleOnChange = (text:string) =>{
