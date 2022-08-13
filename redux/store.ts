@@ -4,7 +4,7 @@ import toDoReducer from "./reducers/toDoReducer";
 
 const store = configureStore({
     reducer: {
-        toDo:toDoReducer,
+        toDo: toDoReducer,
     },
 
 })

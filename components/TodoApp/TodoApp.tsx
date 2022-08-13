@@ -1,41 +1,26 @@
 import React from 'react';
-import {Button, StyleSheet, View} from 'react-native';
+import {Button, View} from 'react-native';
 import Controls from "../Controls/Controls";
 import TaskList from "../TaskList/TaskList";
-
-
+import styles from "./TodoAppStyles";
 // @ts-ignore
 export default function TodoApp({navigation}) {
-    const loadCompletedTasks = () =>{
+    const loadCompletedTasks = () => {
         navigation.navigate('Completed')
+
     }
 
 
     return (
         <View style={styles.container}>
-                    <TaskList title="Today's Tasks"/>
-                <Controls />
+            <TaskList title="Today's Tasks"/>
+            <Controls/>
             <View>
                 <Button title="Check Completed Tasks" onPress={loadCompletedTasks}></Button>
             </View>
-            </View>
+        </View>
 
 
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#E8EAED',
-        paddingHorizontal:20,
-        paddingTop:94,
-        paddingBottom:37,
-        flexDirection:"column",
-        justifyContent:"space-between",
-    },
-
-
-
-
-});

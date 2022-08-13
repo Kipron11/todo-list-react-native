@@ -8,21 +8,21 @@ import CompletedToDos from "../CompletedToDos/CompletedToDos";
 const Stack = createStackNavigator();
 
 
-export default function Navigate(){
- return(
-     <NavigationContainer>
-     <Stack.Navigator>
-         <Stack.Screen
-             name="Todos"
-             component={TodoApp}
-             options={{title:'todo'}}
-         ></Stack.Screen>
-         <Stack.Screen
-             name="Completed"
-             component={CompletedToDos}
-             options={{title:'completed'}}
-         ></Stack.Screen>
-     </Stack.Navigator>
-     </NavigationContainer>
- )
+export default function Navigate() {
+    return (
+        <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen
+                    name="Todos"
+                    component={TodoApp}
+                    options={{title: 'My Task List'}}
+                ></Stack.Screen>
+                <Stack.Screen
+                    name="Completed"
+                    component={CompletedToDos}
+                    options={{title: 'Completed Task'}}
+                ></Stack.Screen>
+            </Stack.Navigator>
+        </NavigationContainer>
+    )
 };

@@ -2,55 +2,62 @@ import {createSlice} from "@reduxjs/toolkit";
 import {Todo} from "../../models/TodoModel";
 
 
-
 export const toDoReducer = createSlice({
-    name:'todo',
+    name: 'todo',
     initialState: {
-        count:0,
-        value:[] as Todo[],
+        count: 0,
+        value: [] as Todo[],
+        userName: '',
 
     },
-    reducers : {
-        addTodo: (state:{ value:Todo[], count:number}, action:{payload:Todo}) =>
-        {
+    reducers: {
+        addTodo: (state: { value: Todo[], count: number }, action: { payload: Todo }) => {
 
-            const todo ={
-                id:Math.random()*100,
+            const todo = {
+                id: Math.random() * 100,
                 name: action.payload.name,
-                completed:'inProgress',
+                completed: 'inProgress',
             };
             state.value.push(todo);
 
             // state.value.push(action.payload)
         },
-        removeTodo:(state:{ value:Todo[], count:number}, action:{payload:Todo}) =>
-        {
+        removeTodo: (state: { value: Todo[], count: number }, action: { payload: Todo }) => {
             state.value = state.value.filter((todo) => todo.id !== action.payload.id);
 
         },
-       saveTodo:(state:{ value:Todo[]}, action:{payload:Todo}) =>
-        {
+        saveTodo: (state: { value: Todo[] }, action: { payload: Todo }) => {
             let savedTodo = state.value.filter((todo) => todo.id == action.payload.id)[0];
             savedTodo.name = action.payload.name
         },
-        completeTodo:(state:{value:Todo[], count:number}, action:{payload:Todo}) =>
-        {
+        completeTodo: (state: { value: Todo[], count: number }, action: { payload: Todo }) => {
             let completedTodo = state.value.filter((todo) => todo.id == action.payload.id)[0];
             completedTodo.completed = 'complete';
-            },
-        unCompleteTodo:(state:{value:Todo[], count:number}, action:{payload:Todo}) =>
-        {
+        },
+        unCompleteTodo: (state: { value: Todo[], count: number }, action: { payload: Todo }) => {
             let completedTodo = state.value.filter((todo) => todo.id == action.payload.id)[0];
             completedTodo.completed = 'inProgress';
         },
-        increaseCounter:(state:{value:Todo[], count:number})=>{
-            state.count +=1;
+        increaseCounter: (state: { value: Todo[], count: number }) => {
+            state.count += 1;
         },
-        decreaseCounter:(state:{value:Todo[], count:number})=>{
-            state.count -=1;
-        }
+        decreaseCounter: (state: { value: Todo[], count: number }) => {
+            state.count -= 1;
+        },
+        updateUserName: (state: { userName: string }, action: { payload: string }) => {
+            state.userName = action.payload
+        },
     },
 })
 
-export const { addTodo, removeTodo,completeTodo,saveTodo,unCompleteTodo,increaseCounter,decreaseCounter } = toDoReducer.actions;
+export const {
+    addTodo,
+    removeTodo,
+    completeTodo,
+    saveTodo,
+    unCompleteTodo,
+    increaseCounter,
+    decreaseCounter,
+    updateUserName
+} = toDoReducer.actions;
 export default toDoReducer.reducer;
